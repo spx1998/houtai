@@ -26,7 +26,7 @@ public class UserInfo implements Serializable {
         this.session_key = session_key;
     }
 
-    /*public int getErrcode() {
+    public int getErrcode() {
         return errcode;
     }
 
@@ -40,5 +40,5 @@ public class UserInfo implements Serializable {
 
     public void setErrmsg(String errmsg) {
         this.errmsg = errmsg;
-    }*/
+    }
 }

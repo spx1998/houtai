@@ -14,4 +14,20 @@
  <insert id="createNewUser" parameterType="String" >
      insert into user(openid) values (#{openid})
  </insert>
+    <update id="updateUserByOpenid">
+        update user set username=#{name},gender=#{gender}, state=#{state} where openid=#{openid}
+    </update>
+    <update id="bindSchool">
+        update user set school=#{school}, state=#{state} where openid=#{openid}
+    </update>
+    <update id="bindUserContact">
+        update user set qqid=#{qqid},wxid=#{wxid},phone=#{phone},state=#{state} where openid=#{openid}
+    </update>
+    <select id="hasThisUser" resultType="java.lang.String" parameterType="String">
+        select openid from user where openid=#{openid}
+    </select>
+    <select id="getUser" resultMap="User" parameterType="String" >
+        select * from user where openid=#{openid}
+    </select>
+
 </mapper>

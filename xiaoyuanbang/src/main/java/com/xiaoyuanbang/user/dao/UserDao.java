@@ -1,14 +1,22 @@
 package com.xiaoyuanbang.user.dao;
 
 import com.xiaoyuanbang.user.domain.User;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
+
+@Mapper
 public interface UserDao {
 
-    boolean hasThisUser(String openid);
+    String hasThisUser(String openid);
 
     void createNewUser(String userInfo);
 
-    String getSchool(String openid);
-
     User getUser(String openid);
+
+    void updateUserByOpenid(@Param("openid") String openid, @Param("name") String name, @Param("gender") String gender, @Param("state") String state);
+
+    void bindSchool(@Param("openid")String openid, @Param("school")String school,@Param("state") String state);
+
+    void bindUserContact(@Param("openid")String openid,@Param("qqid") int qqid,@Param("wxid") String wxid,@Param("phone") int phone,@Param("state") String state);
 }

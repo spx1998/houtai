@@ -7,11 +7,29 @@ public class User implements Serializable {
     private static final long serialVersionUID = 6308987888585366666L;
     private int id;
     private String username;
+    private String gender;
     private int qqid;
     private String wxid;
     private int phone;
     private String school;
     private String openid;
+    private String state;
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
     public int getId() {
         return id;
