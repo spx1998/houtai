@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.houtai.menu.dao.DishDao">
+    <resultMap id="Dish" type="com.houtai.menu.domain.Dish">
+        <id property="dishID" column="dish_id"/>
+        <result property="name" column="dish_name"/>
+        <result property="introduce" column="introduce"/>
+        <result property="picUrl" column="picurl"/>
+        <result property="status" column="status"/>
+        <result property="maxQuantity" column="max_quantity"/>
+        <result property="quantity" column="quantity"/>
+        <result property="price" column="price"/>
+        <result property="vPrice" column="vip_price"/>
+    </resultMap>
+    <insert id="addDish">
+        insert into menu(dish_name, introduce, picurl, price, vip_price) values (#{param1},#{param2},#{param3},#{param4},#{param5})
+    </insert>
+    <update id="setPrice">
+        update menu set price =#{param2},vip_price=#{param3} where dish_id=#{param1}
+    </update>
+    <update id="setMaxQuantity">
+        update menu set max_quantity=#{param2} where dish_id=#{param1}
+    </update>
+    <update id="setStatus">
+        update menu set status=#{param2} where dish_id=#{param1}
+    </update>
+    <update id="updateDish" >
+        update menu
+        set dish_name=#{dish.name},
+            introduce=#{dish.introduce},
+            max_quantity=#{dish.maxQuantity},
+            price=#{dish.price},
+            vip_price=#{dish.vPrice},
+            status=#{dish.status}
+        where dish_id=#{dish.dishID};
+    </update>
+    <delete id="deleteDish">
+        delete from menu where dish_id = #{id}
+    </delete>
+    <select id="getDishList" resultMap="Dish">
+        select * from menu;
+    </select>
+    <select id="getDishById" resultMap="Dish">
+        select * from menu where dish_id=#{id};
+    </select>
+</mapper>

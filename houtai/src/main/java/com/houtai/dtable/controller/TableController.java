@@ -22,13 +22,14 @@ public class TableController {
     /**
      * 新增餐桌
      */
-    @PostMapping("/talbe/add")
+    @PostMapping("/table/add")
     public String addTable(@RequestParam("number")int num){
         Msg m = new Msg();
         try {
             dTableDao.addNewTable(num);
             m.setStatus("ok");
         }catch (Exception e){
+            e.printStackTrace();
             m.setStatus("error");
         }
         return g.toJson(m);
@@ -45,6 +46,7 @@ public class TableController {
             m.setStatus("ok");
 
         }catch (Exception e){
+            e.printStackTrace();
             m.setStatus("error");
         }
         return g.toJson(m);
@@ -60,6 +62,7 @@ public class TableController {
             dTableDao.resumeTable(id);
             m.setStatus("ok");
         }catch (Exception e){
+            e.printStackTrace();
             m.setStatus("error");
         }
         return g.toJson(m);
@@ -76,6 +79,7 @@ public class TableController {
             m.setStatus("ok");
             m.setContent(g.toJson(tables));
         }catch (Exception e){
+            e.printStackTrace();
             m.setStatus("error");
             m.setContent("获取餐桌列表失败");
         }

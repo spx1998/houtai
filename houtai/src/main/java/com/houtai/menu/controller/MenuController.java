@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.houtai.common.domain.Msg;
 import com.houtai.common.utils.FileUtil;
 import com.houtai.menu.dao.DishDao;
+import com.houtai.menu.dao.DishStatsDao;
 import com.houtai.menu.domain.Dish;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +18,8 @@ import java.util.Objects;
 public class MenuController {
     @Autowired
     DishDao dishDao;
+    @Autowired
+    DishStatsDao dishStatsDao;
 
     Gson g = new Gson();
 
@@ -70,9 +73,8 @@ public class MenuController {
         Msg m = new Msg();
         try {
             Dish dish = g.fromJson(jsonString,Dish.class);
-            //TODO:introduce和url为空 时可能报错，需测试
-
             dishDao.addDish(dish.getName(),dish.getIntroduce(),dish.getPicUrl(),dish.getPrice(),dish.getvPrice());
+            dishStatsDao.addDish(dish.getDishID());
             m.setStatus("ok");
         }catch (Exception e){
             e.printStackTrace();
@@ -118,6 +120,7 @@ public class MenuController {
         Msg m = new Msg();
         try {
             dishDao.deleteDish(id);
+            dishStatsDao.deleteDish(id);
             m.setStatus("ok");
         }catch (Exception e){
             e.printStackTrace();
@@ -127,58 +130,13 @@ public class MenuController {
     }
 
     /**
-     * 修改价格
+     * 修改菜品信息
      */
-    //TODO: 价格和数量都应该有区间限制，前端完成或后端完成
-    @PostMapping("/dish/price")
-    public String updatePrice(@RequestParam("id")int id,@RequestParam(value = "price")int price,@RequestParam("vprice")int vPrice){
+    @PostMapping("/dish/update")
+    public String updateDish(@RequestBody Dish dish){
         Msg m = new Msg();
         try {
-            Dish dish = dishDao.getDishById(id);
-            if(price==0){
-                price = dish.getPrice();
-            }
-            if(vPrice==0){
-                vPrice = dish.getvPrice();
-            }
-            dishDao.setPrice(id,price,vPrice);
-            m.setStatus("ok");
-        }catch (Exception e){
-            e.printStackTrace();
-            m.setStatus("error");
-        }
-        return g.toJson(m);
-    }
-
-    /**
-     * 修改供应量
-     */
-    @PostMapping("/dish/quantity")
-    public String updateQuantity(@RequestParam("id")int id,@RequestParam("quantity")int maxQuantity){
-        Msg m = new Msg();
-        try {
-            dishDao.setMaxQuantity(id,maxQuantity);
-            m.setStatus("ok");
-        }catch (Exception e){
-            e.printStackTrace();
-            m.setStatus("error");
-        }
-        return g.toJson(m);
-    }
-
-    /**
-     * 修改菜品状态
-     */
-    @PostMapping("/dish/status")
-    public String updateStatus(@RequestParam("id")int id,@RequestParam("status")int status){
-        Msg m = new Msg();
-        try {
-            if(status!=0&&status!=1&&status!=2){
-                m.setStatus("wrong");
-                m.setContent("未知的status");
-                return g.toJson(m);
-            }
-            dishDao.setStatus(id,status);
+            dishDao.updateDish(dish);
             m.setStatus("ok");
         }catch (Exception e){
             e.printStackTrace();

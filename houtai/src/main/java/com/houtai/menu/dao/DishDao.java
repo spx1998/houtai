@@ -2,6 +2,7 @@ package com.houtai.menu.dao;
 
 import com.houtai.menu.domain.Dish;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -22,4 +23,6 @@ public interface DishDao {
     void setMaxQuantity(int id, int maxQuantity);
 
     void setStatus(int id, int status);
+
+    void updateDish(@Param("dish")Dish dish);
 }
