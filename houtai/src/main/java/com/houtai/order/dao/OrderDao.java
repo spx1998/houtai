@@ -13,4 +13,6 @@ public interface OrderDao {
     List<Order> getOrderList();
 
     void updatePrice(String orderId, String dishId);
+
+    void deleteOrderById(String orderId);
 }

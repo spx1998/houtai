@@ -9,6 +9,15 @@ public class OrderDetail implements Serializable {
     private String orderId;
     private int dishId;
     private int price;
+    private String dishName;
+
+    public String getDishName() {
+        return dishName;
+    }
+
+    public void setDishName(String dishName) {
+        this.dishName = dishName;
+    }
 
     public int getId() {
         return id;

@@ -14,8 +14,17 @@ public class OrderService {
     OrderDetailDao orderDetailDao;
 
     @Transactional
-    public void updatePrice(String orderId,String dishId){
+    public void updatePrice(int id, String orderId, String dishId){
         orderDao.updatePrice(orderId,dishId);
-        orderDetailDao.deleteDish(orderId,dishId);
+        orderDetailDao.deleteDish(id,orderId,dishId);
+        if(orderDetailDao.getOrderDetailById(orderId).size()==0){
+            orderDao.deleteOrderById(orderId);
+        }
+    }
+
+    @Transactional
+    public void deleteOrderById(String id) {
+        orderDao.deleteOrderById(id);
+        orderDetailDao.deleteByOrderId(id);
     }
 }

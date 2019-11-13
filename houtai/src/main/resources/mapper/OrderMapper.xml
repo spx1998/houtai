@@ -10,9 +10,12 @@
     <result property="status" column="status"/>
 </resultMap>
     <update id="updatePrice">
-        update order_table t set price = price-(select price from order_detail d where d.order_id=#{param1} and d.dish_id=#{param2}) where t.order_id=#{param1};
+        update order_table t set price = price-(select avg(d.price) from order_detail d where d.order_id=#{param1} and d.dish_id=#{param2}) where t.order_id=#{param1};
     </update>
+    <delete id="deleteOrderById">
+        delete from order_table where order_id=#{orderId}
+    </delete>
     <select id="getOrderList" resultMap="Order">
-        select * from order_table ;
+        select * from order_table where status=1;
     </select>
 </mapper>

@@ -4,11 +4,15 @@ import com.houtai.order.domain.OrderDetail;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @Mapper
 public interface OrderDetailDao {
 
-    void deleteDish(String orderId, String dishId);
+    void deleteDish(int id, String orderId, String dishId);
 
-    OrderDetail getOrderDetailById(String id);
+    List<OrderDetail> getOrderDetailById(String id);
+
+    void deleteByOrderId(String id);
 }

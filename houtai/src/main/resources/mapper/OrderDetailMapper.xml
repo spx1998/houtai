@@ -9,7 +9,10 @@
         <result property="price" column="price"/>
     </resultMap>
     <delete id="deleteDish">
-        delete from order_detail where order_id=#{param1} and dish_id=#{param2};
+        delete from order_detail where id=#{param1} and order_id=#{param2} and dish_id=#{param3};
+    </delete>
+    <delete id="deleteByOrderId">
+        delete from order_detail where order_id=#{id}
     </delete>
     <select id="getOrderDetailById" resultMap="OrderDetail">
         select * from order_detail where order_id =#{id}
