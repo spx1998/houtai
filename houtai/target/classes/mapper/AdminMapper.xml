@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.houtai.admin.dao.AdminDao">
+    <resultMap id="Admin" type="com.houtai.admin.domain.AdminInfo">
+        <id property="adminID" column="admin_id"/>
+        <result property="name" column="name"/>
+        <result property="password" column="password"/>
+        <result property="phoneNumber" column="phone_num"/>
+        <result property="role" column="role_id"/>
+    </resultMap>
+    <insert id="addAdmin">
+        insert into admins(name, phone_num) value(#{param1},#{param2});
+    </insert>
+    <update id="changeAdminInfo">
+        update admins set name = #{param2}, phone_num = #{param3},password=#{param4} where admin_id=#{param1};
+    </update>
+    <update id="changeAdminPwd">
+        update admins set password = #{param2} where phone_num =#{param1};
+    </update>
+    <delete id="deleteAdmin">
+        delete from admins where admin_id = #{param1};
+    </delete>
+    <select id="getAdminInfoById" resultMap="Admin">
+        select admin_id,name,phone_num,role_id,password from admins where admin_id = #{param1};
+    </select>
+    <select id="getAdminList" resultMap="Admin">
+        select admin_id,name,phone_num,role_id from admins;
+    </select>
+    <select id="getAdminInfoByUsername" resultMap="Admin">
+        select *from admins where name=#{param1}
+    </select>
+    <select id="checkNameAndPwd" resultType="java.lang.Integer">
+        select count(*) from admins where name=#{param1} and password=#{param2};
+    </select>
+    <select id="getAdminInfoByPhoneNumber" resultMap="Admin">
+        select * from admins where phone_num=#{phoneNumber};
+    </select>
+</mapper>

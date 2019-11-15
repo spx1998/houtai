@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.houtai.order.dao.OrderDetailDao">
+    <resultMap id="OrderDetail" type="com.houtai.order.domain.OrderDetail">
+        <id property="id" column="id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="dishId" column="dish_id"/>
+        <result property="price" column="price"/>
+    </resultMap>
+    <delete id="deleteDish">
+        delete from order_detail where id=#{param1} and order_id=#{param2} and dish_id=#{param3};
+    </delete>
+    <delete id="deleteByOrderId">
+        delete from order_detail where order_id=#{id}
+    </delete>
+    <select id="getOrderDetailById" resultMap="OrderDetail">
+        select * from order_detail where order_id =#{id}
+    </select>
+
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.houtai.order.dao.OrderDao">
+<resultMap id="Order" type="com.houtai.order.domain.Order">
+    <id property="orderId" column="order_id"/>
+    <result property="tableId" column="table_id"/>
+    <result property="memId" column="mem_id"/>
+    <result property="price" column="price"/>
+    <result property="status" column="status"/>
+</resultMap>
+    <update id="updatePrice">
+        update order_table t set price = price-(select avg(d.price) from order_detail d where d.order_id=#{param1} and d.dish_id=#{param2}) where t.order_id=#{param1};
+    </update>
+    <delete id="deleteOrderById">
+        delete from order_table where order_id=#{orderId}
+    </delete>
+    <select id="getOrderList" resultMap="Order">
+        select * from order_table where status=1;
+    </select>
+</mapper>
