@@ -3,6 +3,7 @@ package com.houtai.security.config;
 import com.houtai.security.filter.AuthenticationTokenFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -11,6 +12,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
@@ -21,18 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        /*http
-                .authorizeRequests()
-                .antMatchers("/auth").authenticated()       // 需携带有效 token
-                .antMatchers("/admin").hasAuthority("admin")   // 需拥有 admin 这个权限
-                .antMatchers("/ADMIN").hasRole("ADMIN")     // 需拥有 ADMIN 这个身份
-                .anyRequest().permitAll()       // 允许所有请求通过
-                .and()
-                .csrf()
-                .disable()                      // 禁用 Spring Security 自带的跨域处理
-                .sessionManagement()                        // 定制我们自己的 session 策略
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS); // 调整为让 Spring Security 不创建和使用 session
-       */
+
         //TODO:hasAuthority和hasRole的区别
         http
                 .authorizeRequests()

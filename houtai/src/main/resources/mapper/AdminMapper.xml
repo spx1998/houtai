@@ -16,21 +16,24 @@
         update admins set name = #{param2}, phone_num = #{param3},password=#{param4} where admin_id=#{param1};
     </update>
     <update id="changeAdminPwd">
-        update admins set password = #{param2} where admin_id =#{param1};
+        update admins set password = #{param2} where phone_num =#{param1};
     </update>
     <delete id="deleteAdmin">
         delete from admins where admin_id = #{param1};
     </delete>
     <select id="getAdminInfoById" resultMap="Admin">
-        select admin_id,name,phone_num from admins where admin_id = #{param1};
+        select admin_id,name,phone_num,role_id,password from admins where admin_id = #{param1};
     </select>
     <select id="getAdminList" resultMap="Admin">
-        select admin_id,name,phone_num from admins;
+        select admin_id,name,phone_num,role_id from admins;
     </select>
     <select id="getAdminInfoByUsername" resultMap="Admin">
         select *from admins where name=#{param1}
     </select>
     <select id="checkNameAndPwd" resultType="java.lang.Integer">
         select count(*) from admins where name=#{param1} and password=#{param2};
+    </select>
+    <select id="getAdminInfoByPhoneNumber" resultMap="Admin">
+        select * from admins where phone_num=#{phoneNumber};
     </select>
 </mapper>

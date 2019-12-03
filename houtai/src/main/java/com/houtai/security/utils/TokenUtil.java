@@ -1,7 +1,7 @@
 package com.houtai.security.utils;
 
 import com.houtai.security.details.TokenDetail;
-import com.houtai.security.impls.UserDetailImpl;
+import com.houtai.security.domain.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -109,7 +109,7 @@ public class TokenUtil {
      * @return
      */
     public Boolean validateToken(String token, UserDetails userDetails) {
-        UserDetailImpl user = (UserDetailImpl) userDetails;
+        User user = (User) userDetails;
         final String username = this.getUsernameFromToken(token);
         final Date created = this.getCreatedDateFromToken(token);
         return (username.equals(user.getUsername()) && !(this.isTokenExpired(token)) );

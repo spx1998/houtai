@@ -17,7 +17,9 @@ public interface AdminDao {
 
     AdminInfo getAdminInfoById(int id);
 
-    void changeAdminPwd(int id, String newpwd);
+    AdminInfo getAdminInfoByPhoneNumber(String phoneNumber);
+
+    void changeAdminPwd(String phoneNumber, String newpwd);
 
     List<AdminInfo> getAdminList();
 

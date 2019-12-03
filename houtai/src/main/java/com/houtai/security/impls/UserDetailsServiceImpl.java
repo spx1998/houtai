@@ -2,6 +2,7 @@ package com.houtai.security.impls;
 
 import com.houtai.admin.dao.AdminDao;
 import com.houtai.admin.domain.AdminInfo;
+import com.houtai.security.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,10 +28,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException(String.format("用户名不存在：", username));
         } else {
 
-            UserDetailImpl userDetail = new UserDetailImpl();
-            userDetail.setUsername(username);
-            userDetail.setPassword(admin.getPassword());
-            return userDetail;
+            User user = new User();
+            user.setUsername(username);
+            user.setPassword(admin.getPassword());
+            user.setRole(admin.getRole());
+            return user;
         }
     }
 

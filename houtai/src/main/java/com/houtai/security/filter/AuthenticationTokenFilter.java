@@ -54,7 +54,7 @@ public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFil
             // UserDetails 类是 Spring Security 用于保存用户权限的实体类
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
             // 检查用户带来的 token 是否有效
-            // 包括 token 和 userDetails 中用户名是否一样， token 是否过期， token 生成时间是否在最后一次密码修改时间之前
+            // 包括 token 和 userDetails 中用户名是否一样， token 是否过期
             // 若是检查通过
             if (this.tokenUtil.validateToken(authToken, userDetails)) {
                 // 生成通过认证
@@ -62,13 +62,11 @@ public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFil
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));
                 // 将权限写入本次会话
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+                logger.info("authenticated user " + username + ", setting security context");
+                SecurityContextHolder.getContext().setAuthentication(authentication);
             }
-            if (!userDetails.isEnabled()){
-                response.setCharacterEncoding("UTF-8");
-                response.setContentType("application/json;charset=UTF-8");
-                response.getWriter().print("{\"code\":\"452\",\"data\":\"\",\"message\":\"账号处于黑名单\"}");
-                return;
-            }
+
+
         }
         chain.doFilter(request, response);
     }

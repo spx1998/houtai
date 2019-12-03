@@ -4,10 +4,11 @@ import com.google.gson.Gson;
 import com.houtai.admin.dao.AdminDao;
 import com.houtai.admin.domain.AdminInfo;
 import com.houtai.common.domain.Msg;
-import com.houtai.common.utils.AESUtil;
+import com.houtai.security.utils.TokenUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,12 +19,14 @@ public class AdminController {
 
     @Autowired
     private AdminDao adminDao;
-    @PostMapping("/admin")
 
+    @Autowired
+    private TokenUtil tokenUtil;
 
     /**
      * 超管增加管理员
      */
+    @PostMapping("/admin/add")
     public String addAdmin(@RequestParam("name")String name,@RequestParam("phone")String phoneNumber){
         Msg m = new Msg();
         try {
@@ -32,7 +35,7 @@ public class AdminController {
             m.setContent("新建管理员成功");
         } catch (DuplicateKeyException de) {
             m.setStatus("wrong");
-            m.setContent("该手机号已存在");
+            m.setContent("名称或手机号重复");
         }catch (Exception e ){
             e.printStackTrace();
             m.setStatus("error");
@@ -44,7 +47,7 @@ public class AdminController {
     /**
      *  root 修改管理员信息
      */
-    @PatchMapping("/admin")
+    @PostMapping("/admin/update")
     public String changeAdminInfo(@RequestParam("id")int id,@RequestParam("name")String name,@RequestParam("phone")String phoneNumber,@RequestParam("password")String password){
         Msg m = new Msg();
         try {
@@ -57,15 +60,13 @@ public class AdminController {
             }
             if(StringUtils.isBlank(password)){
                 password = adminInfo.getPassword();
-            }else {
-                password = AESUtil.encrypt(password,AESUtil.KEY);
             }
             adminDao.changeAdminInfo(id,name,phoneNumber,password);
             m.setStatus("ok");
             m.setContent("修改成功");
         }catch (DuplicateKeyException de) {
             m.setStatus("wrong");
-            m.setContent("手机号已存在");
+            m.setContent("名称或手机号已存在");
         }
        catch (Exception e){
             e.printStackTrace();
@@ -78,7 +79,7 @@ public class AdminController {
     /**
      *     超管删除管理员
      */
-    @DeleteMapping("/admin")
+    @PostMapping("/admin/delete")
     public String deleteAdmin(@RequestParam("id")int id){
         Msg m = new Msg();
         try {
@@ -96,16 +97,15 @@ public class AdminController {
     /**
      * 管理员修改密码
      */
-    @PatchMapping("/admin/pwd")
-    public String changeAdminPwd(@RequestParam("id")int id,@RequestParam("password")String pwd,@RequestParam("newPwd")String newpwd){
+    @PostMapping("/admin/pwd")
+    public String changeAdminPwd(@RequestParam("phoneNumber")String phoneNumber,@RequestParam("password")String pwd,@RequestParam("newPwd")String newpwd){
         Msg m = new Msg();
         try {
-            AdminInfo adminInfo = adminDao.getAdminInfoById(id);
-
-            if(pwd.equals(AESUtil.decrypt(adminInfo.getPassword(), AESUtil.KEY))) {
-                adminDao.changeAdminPwd(id,AESUtil.encrypt(newpwd,AESUtil.KEY));
+            AdminInfo adminInfo = adminDao.getAdminInfoByPhoneNumber(phoneNumber);
+            if(pwd.equals(adminInfo.getPassword())) {
+                adminDao.changeAdminPwd(phoneNumber,newpwd);
                 m.setStatus("ok");
-                m.setStatus("修改成功");
+                m.setContent("修改成功");
             }else {
                 m.setStatus("wrong");
                 m.setContent("原密码错误");
@@ -121,7 +121,8 @@ public class AdminController {
     /**
      *     获取管理员列表
      */
-    @GetMapping("/admin")
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/admin/list")
     public String getAdminList(){
         Msg m = new Msg();
         try {
@@ -134,6 +135,26 @@ public class AdminController {
             m.setContent("列表获取失败");
         }
         return g.toJson(m);
+    }
+
+    /**
+     * 获取本人信息
+     */
+    @GetMapping("/info")
+    public String getMyInfo(@RequestHeader("token")String token){
+        Msg m = new Msg();
+        try {
+            String userName = tokenUtil.getUsernameFromToken(token);
+            AdminInfo adminInfo = adminDao.getAdminInfoByUsername(userName);
+            adminInfo.setPassword("");
+            m.setStatus("ok");
+            m.setContent(g.toJson(adminInfo));
+        }catch (Exception e){
+            e.printStackTrace();
+            m.setStatus("error");
+        }
+        return g.toJson(m);
+
     }
 
 }

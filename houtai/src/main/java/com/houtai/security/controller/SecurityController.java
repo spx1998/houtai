@@ -3,7 +3,6 @@ package com.houtai.security.controller;
 import com.google.gson.Gson;
 import com.houtai.admin.dao.AdminDao;
 import com.houtai.common.domain.Msg;
-import com.houtai.common.utils.AESUtil;
 import com.houtai.security.details.TokenDetail;
 import com.houtai.security.impls.TokenDetailImpl;
 import com.houtai.security.utils.TokenUtil;
@@ -19,13 +18,14 @@ public class SecurityController {
     AdminDao adminDao;
     @Autowired
     TokenUtil tokenUtil;
+
     //TODO: 希望扩展成为既可以用用户名也可以用手机号登录
     //TODO:退出登录
     @PostMapping("/login")
     public String login(@RequestParam("username")String username,@RequestParam("password") String pwd){
         Msg m = new Msg();
         try {
-            if (adminDao.checkNameAndPwd(username, AESUtil.encrypt(pwd,AESUtil.KEY)) == 1) {
+            if (adminDao.checkNameAndPwd(username, pwd) == 1) {
                 m.setStatus("ok");
 
                 TokenDetail tokenDetail = new TokenDetailImpl(username);
