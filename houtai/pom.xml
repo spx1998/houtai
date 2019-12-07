@@ -20,11 +20,11 @@
 
     <groupId>com</groupId>
 
-    <artifactId>xiaoyuanbang</artifactId>
+    <artifactId>course_project_houtai</artifactId>
 
     <version>0.0.1-SNAPSHOT</version>
 
-    <name>xiaoyuanbang</name>
+    <name>houtai</name>
 
     <description>Demo project for Spring Boot</description>
 
