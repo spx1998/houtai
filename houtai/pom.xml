@@ -113,21 +113,6 @@
             <artifactId>jjwt</artifactId>
             <version>0.4</version>
         </dependency>
-
-
-
-        <!-->log4j日志<!-->
-
-        <dependency>
-
-            <groupId>org.springframework.boot</groupId>
-
-            <artifactId>spring-boot-starter-log4j</artifactId>
-
-        </dependency>
-
-
-
         <!-->Gson<!-->
 
         <dependency>
@@ -139,9 +124,6 @@
             <version>2.8.5</version>
 
         </dependency>
-
-
-
         <dependency>
 
             <groupId>commons-lang</groupId>
