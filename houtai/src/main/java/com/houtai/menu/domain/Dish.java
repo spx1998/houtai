@@ -11,6 +11,7 @@ public class Dish implements Serializable {
     private int status;
     private int maxQuantity;
     private int quantity;
+    private int type;
     private int price;
     private int vPrice;
 
@@ -84,5 +85,13 @@ public class Dish implements Serializable {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }

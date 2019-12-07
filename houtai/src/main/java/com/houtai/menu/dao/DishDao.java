@@ -14,7 +14,7 @@ public interface DishDao {
 
     Dish getDishById(int id);
 
-    void addDish(String name, String introduce, String url, int price, int vprice);
+    void addDish(String name, String introduce, String url, int price, int vPrice, int type);
 
     void deleteDish(String id);
 

@@ -14,7 +14,7 @@
         <result property="vPrice" column="vip_price"/>
     </resultMap>
     <insert id="addDish">
-        insert into menu(dish_name, introduce, picurl, price, vip_price) values (#{param1},#{param2},#{param3},#{param4},#{param5})
+        insert into menu(dish_name, introduce, picurl, price, vip_price,type) values (#{param1},#{param2},#{param3},#{param4},#{param5},#{param6})
     </insert>
     <update id="setPrice">
         update menu set price =#{param2},vip_price=#{param3} where dish_id=#{param1}
@@ -32,7 +32,8 @@
             max_quantity=#{dish.maxQuantity},
             price=#{dish.price},
             vip_price=#{dish.vPrice},
-            status=#{dish.status}
+            status=#{dish.status},
+            type=#{dish.type}
         where dish_id=#{dish.dishID};
     </update>
     <delete id="deleteDish">

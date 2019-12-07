@@ -154,7 +154,5 @@ public class AdminController {
             m.setStatus("error");
         }
         return g.toJson(m);
-
     }
-
 }

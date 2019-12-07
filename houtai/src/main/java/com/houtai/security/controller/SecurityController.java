@@ -20,9 +20,8 @@ public class SecurityController {
     TokenUtil tokenUtil;
 
     //TODO: 希望扩展成为既可以用用户名也可以用手机号登录
-    //TODO:退出登录
     @PostMapping("/login")
-    public String login(@RequestParam("username")String username,@RequestParam("password") String pwd){
+    public String login(@RequestParam("username") String username, @RequestParam("password") String pwd) {
         Msg m = new Msg();
         try {
             if (adminDao.checkNameAndPwd(username, pwd) == 1) {
@@ -34,7 +33,7 @@ public class SecurityController {
                 m.setStatus("wrong");
                 m.setContent("账号或密码不正确");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             m.setStatus("error");
             m.setContent("登录失败，稍后再试");
         }

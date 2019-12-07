@@ -21,7 +21,7 @@ public class MenuController {
     @Autowired
     DishStatsDao dishStatsDao;
 
-    Gson g = new Gson();
+    private Gson g = new Gson();
 
     @Value("${web.upload-path}")
     String path;
@@ -33,13 +33,13 @@ public class MenuController {
      * 获取dish列表
      */
     @GetMapping("/dish/list")
-    public String getDishList(){
+    public String getDishList() {
         Msg m = new Msg();
         try {
-            List<Dish> dishes =  dishDao.getDishList();
+            List<Dish> dishes = dishDao.getDishList();
             m.setStatus("ok");
             m.setContent(g.toJson(dishes));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             m.setStatus("error");
             m.setContent("获取列表失败");
@@ -51,13 +51,13 @@ public class MenuController {
      * 获取dish详情
      */
     @GetMapping("/dish/{id}")
-    public String getDish(@PathVariable("id")int id){
+    public String getDish(@PathVariable("id") int id) {
         Msg m = new Msg();
         try {
             Dish dish = dishDao.getDishById(id);
             m.setStatus("ok");
             m.setContent(g.toJson(dish));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             m.setStatus("error");
             m.setContent("获取菜品详情失败");
@@ -69,14 +69,14 @@ public class MenuController {
      * 添加菜品
      */
     @PostMapping("/dish/add")
-    public String addDish(@RequestBody String jsonString){
+    public String addDish(@RequestBody String jsonString) {
         Msg m = new Msg();
         try {
-            Dish dish = g.fromJson(jsonString,Dish.class);
-            dishDao.addDish(dish.getName(),dish.getIntroduce(),dish.getPicUrl(),dish.getPrice(),dish.getvPrice());
+            Dish dish = g.fromJson(jsonString, Dish.class);
+            dishDao.addDish(dish.getName(), dish.getIntroduce(), dish.getPicUrl(), dish.getPrice(), dish.getvPrice(), dish.getType());
             dishStatsDao.addDish(dish.getDishID());
             m.setStatus("ok");
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             m.setStatus("error");
         }
@@ -87,7 +87,7 @@ public class MenuController {
      * 上传图片
      */
     @PostMapping("/dish/picture")
-    public String addDishPicture(@RequestParam("picture")MultipartFile pic){
+    public String addDishPicture(@RequestParam("picture") MultipartFile pic) {
         String pictureName;
         Msg m = new Msg();
         try {
@@ -103,8 +103,8 @@ public class MenuController {
                 return g.toJson(m);
             }
             m.setStatus("ok");
-            m.setContent(nginxPath+"/"+pictureName);
-        }catch (Exception e){
+            m.setContent(nginxPath + "/" + pictureName);
+        } catch (Exception e) {
             e.printStackTrace();
             m.setStatus("error");
             m.setContent("上传失败");
@@ -116,13 +116,13 @@ public class MenuController {
      * 删除菜品
      */
     @PostMapping("/dish/del")
-    public String deleteDish(@RequestParam("id")String id){
+    public String deleteDish(@RequestParam("id") String id) {
         Msg m = new Msg();
         try {
             dishDao.deleteDish(id);
             dishStatsDao.deleteDish(id);
             m.setStatus("ok");
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             m.setStatus("error");
         }
@@ -133,15 +133,17 @@ public class MenuController {
      * 修改菜品信息
      */
     @PostMapping("/dish/update")
-    public String updateDish(@RequestBody Dish dish){
+    public String updateDish(@RequestBody Dish dish) {
         Msg m = new Msg();
         try {
             dishDao.updateDish(dish);
             m.setStatus("ok");
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             m.setStatus("error");
         }
         return g.toJson(m);
     }
+
+
 }
