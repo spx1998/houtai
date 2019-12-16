@@ -12,6 +12,7 @@
         <result property="quantity" column="quantity"/>
         <result property="price" column="price"/>
         <result property="vPrice" column="vip_price"/>
+        <result property="recommend" column="recommend"/>
     </resultMap>
     <insert id="addDish">
         insert into menu(dish_name, introduce, picurl, price, vip_price,type) values (#{param1},#{param2},#{param3},#{param4},#{param5},#{param6})
@@ -33,7 +34,8 @@
             price=#{dish.price},
             vip_price=#{dish.vPrice},
             status=#{dish.status},
-            type=#{dish.type}
+            type=#{dish.type},
+            recommend=#{dish.recommend}
         where dish_id=#{dish.dishID};
     </update>
     <delete id="deleteDish">

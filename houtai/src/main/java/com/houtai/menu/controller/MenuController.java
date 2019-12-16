@@ -74,6 +74,7 @@ public class MenuController {
         try {
             Dish dish = g.fromJson(jsonString, Dish.class);
             dishDao.addDish(dish.getName(), dish.getIntroduce(), dish.getPicUrl(), dish.getPrice(), dish.getvPrice(), dish.getType());
+            //TODO: 需要加一个检测的定时任务
             dishStatsDao.addDish(dish.getDishID());
             m.setStatus("ok");
         } catch (Exception e) {
