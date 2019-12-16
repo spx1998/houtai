@@ -14,6 +14,15 @@ public class Dish implements Serializable {
     private int type;
     private int price;
     private int vPrice;
+    private int recommend;
+
+    public int getRecommend() {
+        return recommend;
+    }
+
+    public void setRecommend(int recommend) {
+        this.recommend = recommend;
+    }
 
     public int getMaxQuantity() {
         return maxQuantity;
