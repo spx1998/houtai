@@ -6,7 +6,7 @@ public class Order implements Serializable {
     private static final long serialVersionUID = 4752238033784944831L;
     private String orderId;
     private int tableId;
-    private int memId;
+    private String memId;
     private int price;
     private int status;
 
@@ -26,11 +26,11 @@ public class Order implements Serializable {
         this.tableId = tableId;
     }
 
-    public int getMemId() {
+    public String getMemId() {
         return memId;
     }
 
-    public void setMemId(int memId) {
+    public void setMemId(String memId) {
         this.memId = memId;
     }
 
